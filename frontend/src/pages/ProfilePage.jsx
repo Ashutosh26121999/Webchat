@@ -19,13 +19,20 @@ function ProfilePage() {
 
     try {
       const compressedFile = await imageCompression(file, options);
+
+      // Set the image preview immediately
+      const previewUrl = URL.createObjectURL(compressedFile);
+      setSelectedImg(previewUrl);
+
+      // Convert the compressed file to Base64 and upload it
       const reader = new FileReader();
       reader.readAsDataURL(compressedFile);
-
       reader.onload = async () => {
         const base64Image = reader.result;
-        setSelectedImg(compressedFile);
         await updateProfile({profilePic: base64Image});
+
+        // Cleanup the preview URL to free memory
+        URL.revokeObjectURL(previewUrl);
       };
     } catch (error) {
       console.error("Image compression or upload failed:", error);

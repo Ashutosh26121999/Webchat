@@ -39,7 +39,15 @@ const Navbar = () => {
             {authUser && (
               <>
                 <Link to={"/profile"} className={`btn btn-sm gap-2`}>
-                  <CircleUserRound className='size-5' />
+                  {authUser && authUser?.profilePic ? (
+                    <img
+                      src={authUser.profilePic}
+                      className={`size-5 rounded-full`}
+                      alt='profile picture'
+                    />
+                  ) : (
+                    <CircleUserRound className='size-5' />
+                  )}
                   <span className='hidden sm:inline'>
                     {!authUser ? "Profile" : authUser?.fullName}
                   </span>
